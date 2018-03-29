@@ -1,5 +1,4 @@
 //hopefully this works?
-import 'bootstrap/scss/bootstrap.scss';
 import fontawesome from '@fortawesome/fontawesome';
 import faColumns from '@fortawesome/fontawesome-free-solid/faColumns';
 import faCaretDown from '@fortawesome/fontawesome-free-solid/faCaretDown';
