@@ -1,0 +1,61 @@
+/**
+ * TABLE
+ */
+
+.sl-table-bold {
+  font-family: bentonsansmedium;
+  font-weight: 500;
+  color: black;
+}
+
+.ReactTable {
+  border: none;
+  font-family: bentonsansbook;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  color: #9b9b9b;
+}
+
+.ReactTable .rt-thead {
+  font-family: bentonsansbook;
+  font-size: 11px;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  font-weight: normal;
+  color: #9b9b9b;
+  margin: 4px 0px; 
+}
+
+.ReactTable .rt-thead .rt-th {
+  border-right: none;
+  text-transform: uppercase;
+  white-space: normal;
+} 
+.ReactTable .rt-tbody .rt-td {
+  border-right: none;
+  font-weight: 500;
+  color: black;
+  padding: 0px 5px;
+  overflow: visible;
+}
+
+.ReactTable .rt-thead.-header {
+  box-shadow: none;
+  border-top: 1px solid #dadada;
+  border-bottom: 1px solid #dadada;
+}
+
+.ReactTable .vertical-text {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.ReactTable .form-control {
+  padding: .6rem .75rem;
+}

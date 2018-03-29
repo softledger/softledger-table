@@ -1,0 +1,92 @@
+[
+  {
+    "_id": "5abb167a6dc6878aa2b4e5da",
+    "index": 0,
+    "guid": "0bc8624b-e156-4e5a-b9c8-7b4da4fa21a8",
+    "isActive": false,
+    "balance": "$1,680.22",
+    "age": 21,
+    "company": "UNQ"
+  },
+  {
+    "_id": "5abb167ab6903ae76f3d3a79",
+    "index": 1,
+    "guid": "f4c2b379-620e-4e48-b466-648e829b96a2",
+    "isActive": true,
+    "balance": "$2,637.23",
+    "age": 28,
+    "company": "NETROPIC"
+  },
+  {
+    "_id": "5abb167adb6355fb304bcc58",
+    "index": 2,
+    "guid": "ee12e9b6-ebf0-4267-bfbf-49b853e983ef",
+    "isActive": false,
+    "balance": "$1,016.02",
+    "age": 33,
+    "company": "OVOLO"
+  },
+  {
+    "_id": "5abb167a4e59dd8fc0db9606",
+    "index": 3,
+    "guid": "9eebf8e0-8f93-409f-95c1-279c32dd10c4",
+    "isActive": false,
+    "balance": "$3,346.40",
+    "age": 35,
+    "company": "COMTRACT"
+  },
+  {
+    "_id": "5abb167b6eb35295eeba8503",
+    "index": 4,
+    "guid": "4b8b6f64-56ad-4ed7-a395-5576db922b7d",
+    "isActive": false,
+    "balance": "$2,756.30",
+    "age": 29,
+    "company": "ZILLACON"
+  },
+  {
+    "_id": "5abb167bf0517b714d0c3244",
+    "index": 5,
+    "guid": "a785267e-ff3a-42a2-98a3-cea1a9f4e636",
+    "isActive": true,
+    "balance": "$3,149.87",
+    "age": 38,
+    "company": "SONGBIRD"
+  },
+  {
+    "_id": "5abb167b59221d039e11db72",
+    "index": 6,
+    "guid": "26b1f6f1-ef65-4098-8578-a7a35bb6d5ff",
+    "isActive": true,
+    "balance": "$2,372.36",
+    "age": 20,
+    "company": "OBLIQ"
+  },
+  {
+    "_id": "5abb167bd616b31e25b654dd",
+    "index": 7,
+    "guid": "5375ab28-29e0-49d0-b343-fea4608ad707",
+    "isActive": true,
+    "balance": "$1,033.44",
+    "age": 36,
+    "company": "PLASMOX"
+  },
+  {
+    "_id": "5abb167b185e041702ff1a67",
+    "index": 8,
+    "guid": "18cfb7d4-732e-41d0-b653-510d0972e20e",
+    "isActive": true,
+    "balance": "$1,045.23",
+    "age": 35,
+    "company": "IDEALIS"
+  },
+  {
+    "_id": "5abb167bf2d6254c69761855",
+    "index": 9,
+    "guid": "fc783b76-9f2a-49ea-9dc6-a89c5463f15b",
+    "isActive": true,
+    "balance": "$1,005.69",
+    "age": 35,
+    "company": "FUTURITY"
+  }
+]
