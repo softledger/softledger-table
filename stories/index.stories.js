@@ -74,7 +74,8 @@ storiesOf('SLTable', module)
 					accessor: 'name'
 				}, {
 					Header: 'Description',
-					accessor: 'description'
+					accessor: 'description',
+					myFilter: 'Date'
 				}, {
 					Header: 'ABV',
 					accessor: 'abv'
