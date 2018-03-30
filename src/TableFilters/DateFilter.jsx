@@ -1,6 +1,6 @@
 'use strict';
-import React from 'react';
 import {SLDateRange} from '@softledger/form-components';
+import React from 'react';
 
 const DateFilter = ({column, filter, onChange}) => {
 	const onDatesChange = ({startDate, endDate}) => {

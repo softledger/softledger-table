@@ -214,7 +214,7 @@ SLTable.propTypes = {
                                                      */
 	'columns[].myFilter': _propTypes2.default.oneOf([
 	'Integer',
-	'NameAndNumber',
+	'Number',
 	'Date',
 	'StringAsInt',
 	'Text']),

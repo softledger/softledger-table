@@ -10,7 +10,7 @@ prop | type | default | required | description
 **SubComponent** | `Function` |  | :x: | Subcomponent to display when a table is expanded
 **columns** | `Array` |  | :white_check_mark: | array describing how to display each key in data see react-table for full description
 **columns[].customFilter** | `*` |  | :x: | custom filter defined per react-table
-**columns[].myFilter** | `Enum('Integer','NameAndNumber','Date','StringAsInt','Text')` |  | :x: | Predefined filter to use, defaults to 'Text';
+**columns[].myFilter** | `Enum('Integer','Number','Date','StringAsInt','Text')` |  | :x: | Predefined filter to use, defaults to 'Text';
 **data** | `Array` |  | :x: | array of objects to display in the table
 **defaultSorted** | `Array` |  | :x: | default column to sort by
 **fetchData** | `Function` |  | :white_check_mark: | function to be called when we need to fetch new data ie, when page/limit is changed or filtered

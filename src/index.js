@@ -1,3 +1,10 @@
+//styles
+
+import 'react-table/react-table.css'
+import '@softledger/components/dist/styles.scss';
+import '@softledger/form-components/dist/styles.scss';
+import './styles.scss';
+
 //hopefully this works?
 import fontawesome from '@fortawesome/fontawesome';
 import faColumns from '@fortawesome/fontawesome-free-solid/faColumns';

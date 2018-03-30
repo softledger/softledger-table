@@ -1,4 +1,11 @@
 'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.SLTable = exports.SimpleTable = undefined;
+
+require('react-table/react-table.css');
+require('@softledger/components/dist/styles.scss');
+require('@softledger/form-components/dist/styles.scss');
+require('./styles.scss');
+
+
 var _fontawesome = require('@fortawesome/fontawesome');var _fontawesome2 = _interopRequireDefault(_fontawesome);
 var _faColumns = require('@fortawesome/fontawesome-free-solid/faColumns');var _faColumns2 = _interopRequireDefault(_faColumns);
 var _faCaretDown = require('@fortawesome/fontawesome-free-solid/faCaretDown');var _faCaretDown2 = _interopRequireDefault(_faCaretDown);
@@ -9,7 +16,7 @@ var _faFile = require('@fortawesome/fontawesome-free-solid/faFile');var _faFile2
 
 var _SimpleTable = require('./SimpleTable');var _SimpleTable2 = _interopRequireDefault(_SimpleTable);
 var _SLTable = require('./SLTable');var _SLTable2 = _interopRequireDefault(_SLTable);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}_fontawesome2.default.library.add(_faColumns2.default, _faCaretDown2.default, _faFileAlt2.default, _faFile2.default); //hopefully this works?
+//styles
 exports.
-
 SimpleTable = _SimpleTable2.default;exports.
 SLTable = _SLTable2.default;
