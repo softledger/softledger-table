@@ -7,6 +7,8 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { withState } from '@dump247/storybook-state';
 
+import '../src/styles.scss';
+
 import { SimpleTable, SLTable } from '../src';
 import data from './fakeDate.json';
 const columns = [{

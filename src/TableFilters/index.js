@@ -1,6 +1,6 @@
 'use strict';
 
-//import Date from './DateFilter';
+import Date from './DateFilter';
 import Integer from './IntegerFilter';
 import NameAndNumber from './NameAndNumberFilter';
 import Number from './NumberFilter';
@@ -9,7 +9,7 @@ import Text from './TextFilter';
 
 
 export default {
-	//Date,
+	Date,
 	Integer,
 	NameAndNumber,
 	Number,

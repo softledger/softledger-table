@@ -7,12 +7,9 @@ var _faFile = require('@fortawesome/fontawesome-free-solid/faFile');var _faFile2
 
 
 
-require('react-table/react-table.css');
-require('./Table.css');
-
 var _SimpleTable = require('./SimpleTable');var _SimpleTable2 = _interopRequireDefault(_SimpleTable);
-var _SLTable = require('./SLTable');var _SLTable2 = _interopRequireDefault(_SLTable);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}_fontawesome2.default.library.add(_faColumns2.default, _faCaretDown2.default, _faFileAlt2.default, _faFile2.default); //table styles
-//hopefully this works?
+var _SLTable = require('./SLTable');var _SLTable2 = _interopRequireDefault(_SLTable);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}_fontawesome2.default.library.add(_faColumns2.default, _faCaretDown2.default, _faFileAlt2.default, _faFile2.default); //hopefully this works?
 exports.
+
 SimpleTable = _SimpleTable2.default;exports.
 SLTable = _SLTable2.default;

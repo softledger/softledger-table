@@ -23,8 +23,11 @@ var getHeaders = function getHeaders(columns, visibleOnly) {
 		headers.push(c.accessor);
 	});
 	return headers;
-};var
+};
 
+/**
+    * Extension of react-table to simplify for our standard use case
+    */var
 SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 	function SLTable(props) {_classCallCheck(this, SLTable);var _this = _possibleConstructorReturn(this, (SLTable.__proto__ || Object.getPrototypeOf(SLTable)).call(this,
 		props));_this.
@@ -185,16 +188,65 @@ SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 
 
 SLTable.propTypes = {
+	/**
+                       * array of objects to display in the table
+                       */
 	data: _propTypes2.default.array,
+	/**
+                                   * total # of pages
+                                   */
 	pages: _propTypes2.default.number,
+	/**
+                                     * number of items to show per page
+                                     */
 	pageSize: _propTypes2.default.number,
+	/**
+                                        * array describing how to display each key in data
+                                        * see react-table for full description
+                                        */
 	columns: _propTypes2.default.array.isRequired,
+	/**
+                                                 * custom filter defined per react-table
+                                                 */
+	'columns[].customFilter': _propTypes2.default.any,
+	/**
+                                                     * Predefined filter to use, defaults to 'Text';
+                                                     */
+	'columns[].myFilter': _propTypes2.default.oneOf([
+	'Integer',
+	'NameAndNumber',
+	'Date',
+	'StringAsInt',
+	'Text']),
+
+	/**
+            * function to be called when we need to fetch new data
+            * ie, when page/limit is changed or filtered
+            */
 	fetchData: _propTypes2.default.func.isRequired,
+	/**
+                                                  * Subcomponent to display when a table is expanded
+                                                  */
 	SubComponent: _propTypes2.default.func,
+	/**
+                                          * default column to sort by
+                                          */
 	defaultSorted: _propTypes2.default.array,
-	showMenu: _propTypes2.default.bool, //default true
-	onDeleteRow: _propTypes2.default.func,
-	//true will allow inputs such as dropdowns etc to show
+	/**
+                                            * whether or not to display the column toggle menu
+                                            */
+	showMenu: _propTypes2.default.bool,
+	/**
+                                      * true will allow inputs such as dropdowns etc to show
+                                      */
 	showOverflow: _propTypes2.default.bool,
-	//required if menu is visible
+	/**
+                                          * function which will return a csv of the data
+                                          * if blank, will hide menu buttons
+                                          */
 	getReport: _propTypes2.default.func };
+
+
+SLTable.defaultProps = {
+	showMenu: true,
+	showOverflow: false };
