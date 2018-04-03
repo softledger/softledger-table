@@ -117,14 +117,13 @@ export default class SimpleTable extends React.Component {
 					</Col>
 				</Row>
 				<ReactTable 
+					{...this.props}
 					className="-highlight"
 					data={data || []}
 					columns={columns}
 					defaultSorted={this.props.defaultSorted}
 					defaultPageSize={25}
 					defaultFilterMethod={FilterMethods.Default}
-					/*pageSize={pageSize}
-					showPagination={!pageSize}*/
 					loading={loading}
 					filterable
 					SubComponent={this.props.SubComponent}
