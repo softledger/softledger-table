@@ -100,7 +100,7 @@ SimpleTable = function (_React$Component) {_inherits(SimpleTable, _React$Compone
 				return c;
 			});};_this.state = { loading: true, columns: _this.buildColumns(props.columns) };return _this;}_createClass(SimpleTable, [{ key: 'componentWillReceiveProps', value: function componentWillReceiveProps(nextProps) {if (nextProps.columns !== this.state.columns) {this.setState({ columns: this.buildColumns(nextProps.columns) });}} }, { key: 'render', value: function render()
 
-		{var
+		{var _this2 = this;var
 
 			columns =
 			this.state.columns;var _props =
@@ -138,6 +138,13 @@ SimpleTable = function (_React$Component) {_inherits(SimpleTable, _React$Compone
 							} else {
 								return {};
 							}
+						},
+						getTdProps: function getTdProps() {
+							return {
+								style: {
+									overflow: _this2.props.showOverflow || 'hidden' } };
+
+
 						} }))));
 
 

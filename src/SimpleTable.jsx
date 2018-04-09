@@ -139,6 +139,13 @@ export default class SimpleTable extends React.Component {
 					  	return {};
 					  }
 				  }}
+				  getTdProps={() => {
+				  	return {
+				  		style: {
+				  			overflow: this.props.showOverflow || 'hidden'
+				  		}
+				  	}
+				  }}
 				/>
 			</Container>
 		)
