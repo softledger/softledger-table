@@ -11,12 +11,13 @@ var _faColumns = require('@fortawesome/fontawesome-free-solid/faColumns');var _f
 var _faCaretDown = require('@fortawesome/fontawesome-free-solid/faCaretDown');var _faCaretDown2 = _interopRequireDefault(_faCaretDown);
 var _faFileAlt = require('@fortawesome/fontawesome-free-solid/faFileAlt');var _faFileAlt2 = _interopRequireDefault(_faFileAlt);
 var _faFile = require('@fortawesome/fontawesome-free-solid/faFile');var _faFile2 = _interopRequireDefault(_faFile);
+var _faSave = require('@fortawesome/fontawesome-free-solid/faSave');var _faSave2 = _interopRequireDefault(_faSave);
 
 
 
 var _SimpleTable = require('./SimpleTable');var _SimpleTable2 = _interopRequireDefault(_SimpleTable);
-var _SLTable = require('./SLTable');var _SLTable2 = _interopRequireDefault(_SLTable);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}_fontawesome2.default.library.add(_faColumns2.default, _faCaretDown2.default, _faFileAlt2.default, _faFile2.default); //hopefully this works?
+var _SLTable = require('./SLTable');var _SLTable2 = _interopRequireDefault(_SLTable);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //hopefully this works?
 //styles
-exports.
+_fontawesome2.default.library.add(_faColumns2.default, _faCaretDown2.default, _faFileAlt2.default, _faFile2.default, _faSave2.default);exports.
 SimpleTable = _SimpleTable2.default;exports.
 SLTable = _SLTable2.default;

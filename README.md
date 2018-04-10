@@ -15,6 +15,7 @@ prop | type | default | required | description
 **defaultSorted** | `Array` |  | :x: | default column to sort by
 **fetchData** | `Function` |  | :white_check_mark: | function to be called when we need to fetch new data ie, when page/limit is changed or filtered
 **getReport** | `Function` |  | :x: | function which will return a csv of the data if blank, will hide menu buttons
+**onSaveTableFields** | `Function` |  | :x: | callback which returns all visible headers useful to store default headers
 **pageSize** | `Number` |  | :x: | number of items to show per page
 **pages** | `Number` |  | :x: | total # of pages
 **showMenu** | `Boolean` | `true` | :x: | whether or not to display the column toggle menu

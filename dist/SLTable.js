@@ -81,7 +81,23 @@ SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 									onToggle: function onToggle() {return _this.toggleColumn(idx);} }));
 
 
-						}))] }));
+						}),
+
+
+						_this.props.onSaveTableFields &&
+						_react2.default.createElement('span', null,
+							_react2.default.createElement(_reactstrap.DropdownItem, { divider: true }),
+							_react2.default.createElement(_reactstrap.DropdownItem, {
+									key: 'saveTableFields',
+									onClick: function onClick() {return _this.props.onSaveTableFields({
+											headers: getHeaders(_this.state.columns, true) });} },
+
+
+								_react2.default.createElement(_reactFontawesome2.default, { icon: 'save' }),
+								_react2.default.createElement('span', { style: { paddingLeft: "5px", paddingRight: "5px" } }, '|'), 'Save Table Fields')))] }));
+
+
+
 
 
 
@@ -244,7 +260,12 @@ SLTable.propTypes = {
                                           * function which will return a csv of the data
                                           * if blank, will hide menu buttons
                                           */
-	getReport: _propTypes2.default.func };
+	getReport: _propTypes2.default.func,
+	/**
+                                       * callback which returns all visible headers
+                                       * useful to store default headers
+                                       */
+	onSaveTableFields: _propTypes2.default.func };
 
 
 SLTable.defaultProps = {

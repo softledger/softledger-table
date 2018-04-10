@@ -6,7 +6,7 @@ import {
 	DropDownMenu, ButtonBar, BoolDropDownMenuItem, LoadingButton
 } from '@softledger/components';
 import Filters from './TableFilters';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, DropdownItem } from 'reactstrap';
 import ReactTable from 'react-table';
 import {debounce} from 'lodash';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -83,6 +83,22 @@ export default class SLTable extends React.Component {
 					  		)
 					  	})
 				  	} 
+				  	{
+				  		this.props.onSaveTableFields &&
+				  			<span>
+				  				<DropdownItem divider />
+						  		<DropdownItem
+						  			key="saveTableFields"
+						  			onClick={() => this.props.onSaveTableFields({
+						  				headers: getHeaders(this.state.columns, true)
+						  			})}
+						  		>
+						  			<FontAwesomeIcon icon="save" />
+								    <span style={{paddingLeft:"5px",paddingRight:"5px"}}>&#124;</span>
+								    Save Table Fields 
+								  </DropdownItem>
+						  	</span>
+				  	}
 				  </DropDownMenu>
 				]}
 		  />
@@ -244,7 +260,12 @@ SLTable.propTypes = {
 	 * function which will return a csv of the data
 	 * if blank, will hide menu buttons
 	 */
-	getReport: PropTypes.func
+	getReport: PropTypes.func,
+	/**
+	 * callback which returns all visible headers
+	 * useful to store default headers
+	 */
+	onSaveTableFields: PropTypes.func
 };
 
 SLTable.defaultProps = {
