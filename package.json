@@ -1,6 +1,6 @@
 {
   "name": "@softledger/sl-table",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Geoff Ostrega <geoff.ostrega@softledger.com>",
   "license": "MIT",
   "description": "SoftLedger re-usable UI Components",

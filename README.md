@@ -40,14 +40,11 @@ prop | type | default | required | description
 **defaultSorted** | `Array` |  | :x: | default column to sort by
 **fetchData** | `Function` |  | :white_check_mark: | function to be called when we need to fetch new data ie, when page/limit is changed or filtered
 **getReport** | `Function` |  | :x: | function which will return a csv of the data if blank, will hide menu buttons
-**keyField** | `String` |  | :white_check_mark: | column index to store in selection set
+**keyField** | `String` | `'_id'` | :white_check_mark: | column index to store in selection set
 **onSaveTableFields** | `Function` |  | :x: | callback which returns all visible headers useful to store default headers
-**onToggleSelect** | `Function` |  | :white_check_mark: | function to call when a row selection is toggled
-**onToggleSelectAll** | `Function` |  | :white_check_mark: | funciton to call when select all is toggled called with 'true' when table data is changed
 **pageSize** | `Number` |  | :x: | number of items to show per page
 **pages** | `Number` |  | :x: | total # of pages
-**selectAll** | `Boolean` |  | :x: | true/false if select all is set
-**selection** | `Array` |  | :white_check_mark: | array containing selected 'key' values
+**renderButton** | `Function` |  | :white_check_mark: | function which returns a button, called with selection set this.props.renderButton(selection)
 **selectionColor** | `String` | `'inherit'` | :x: | css color to highlight row when selected
 **showMenu** | `Boolean` | `true` | :x: | whether or not to display the column toggle menu
 **showOverflow** | `Boolean` | `false` | :x: | true will allow inputs such as dropdowns etc to show
