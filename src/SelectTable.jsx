@@ -186,6 +186,11 @@ class SelectTable extends React.Component {
 		});
 	}
 
+	onClick = () => this.setState({
+		selection: [],
+		selectAll: false
+	})
+
 	render() {
 		const {
 			columns,
@@ -205,7 +210,7 @@ class SelectTable extends React.Component {
 			<Container fluid={true}>
 				<Row>
 					<Col xs="2">
-						{this.props.renderButton && this.props.renderButton(selection)}
+						{this.props.renderButton && this.props.renderButton(selection, this.onClick)}
 					</Col>
 					<Col xs={{size:6, offset:4}}>
 						{this.renderMenu()}

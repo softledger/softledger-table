@@ -184,8 +184,13 @@ SelectTable = function (_React$Component) {_inherits(SelectTable, _React$Compone
 				selectAll: selectAll,
 				selection: selection });
 
-		};_this.state = { filtering: false, columns: _this.buildColumns(props.columns), selection: [], selectAll: false };return _this;} //250ms debounce time (human response limit)
+		};_this.
+
+		onClick = function () {return _this.setState({
+				selection: [],
+				selectAll: false });};_this.state = { filtering: false, columns: _this.buildColumns(props.columns), selection: [], selectAll: false };return _this;} //250ms debounce time (human response limit)
 	_createClass(SelectTable, [{ key: 'render', value: function render()
+
 		{var _this2 = this;var _state =
 
 
@@ -205,7 +210,7 @@ SelectTable = function (_React$Component) {_inherits(SelectTable, _React$Compone
 				_react2.default.createElement(_reactstrap.Container, { fluid: true },
 					_react2.default.createElement(_reactstrap.Row, null,
 						_react2.default.createElement(_reactstrap.Col, { xs: '2' },
-							this.props.renderButton && this.props.renderButton(selection)),
+							this.props.renderButton && this.props.renderButton(selection, this.onClick)),
 
 						_react2.default.createElement(_reactstrap.Col, { xs: { size: 6, offset: 4 } },
 							this.renderMenu())),
