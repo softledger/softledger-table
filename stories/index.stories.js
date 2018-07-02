@@ -192,20 +192,6 @@ storiesOf('SelectTable', module)
 				})
 			)
 
-		const onToggleSelect = key => {
-			let selection = [...store.state.selection];
-			let idx = selection.indexOf(key);
-			if(idx === -1) {
-				//add it in
-				selection.push(key);
-			} else {
-				selection.splice(idx, -1);
-			}
-			store.set({
-				selection
-			});
-		}
-
 		return (
 			<SelectTable
 				renderButton={selection => (

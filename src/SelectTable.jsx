@@ -173,12 +173,12 @@ class SelectTable extends React.Component {
 		});
 	}
 
-	onToggleSelectAll = () => {
+	onToggleSelectAll = keyField => {
 		let selection = [];
 		let selectAll = !this.state.selectAll;
 		if(selectAll) {
 			//add everything in
-			this.props.data.forEach(a => selection.push(a.id));
+			this.props.data.forEach(a => selection.push(a[this.props.keyField || '_id']));
 		}
 		this.setState({
 			selectAll,

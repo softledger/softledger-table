@@ -173,12 +173,12 @@ SelectTable = function (_React$Component) {_inherits(SelectTable, _React$Compone
 
 		};_this.
 
-		onToggleSelectAll = function () {
+		onToggleSelectAll = function (keyField) {
 			var selection = [];
 			var selectAll = !_this.state.selectAll;
 			if (selectAll) {
 				//add everything in
-				_this.props.data.forEach(function (a) {return selection.push(a.id);});
+				_this.props.data.forEach(function (a) {return selection.push(a[_this.props.keyField || '_id']);});
 			}
 			_this.setState({
 				selectAll: selectAll,
