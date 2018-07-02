@@ -183,8 +183,6 @@ storiesOf('SLTable', module)
 storiesOf('SelectTable', module)
 	.add('default', withState({
 		data: [],
-		selection: [],
-		selectAll: false,
 	}, store => {
 		const fetchData = ({pageSize, page, sorted, filtered}) => fetch(` https://api.punkapi.com/v2/beers?page=${page+1}&per_page=${[pageSize]}`)
 			.then(r => r.json())
@@ -193,25 +191,6 @@ storiesOf('SelectTable', module)
 					data
 				})
 			)
-
-		const onToggleSelectAll = (dataChanged) => {
-			if(dataChanged) {
-				return store.set({
-					selectAll: false,
-					selection: []
-				})
-			}
-			let selection = [];
-			let selectAll = !store.state.selectAll;
-			if(selectAll) {
-				//add everything in
-				store.state.data.forEach(a => selection.push(a.id));
-			}
-			store.set({
-				selectAll,
-				selection
-			});
-		}
 
 		const onToggleSelect = key => {
 			let selection = [...store.state.selection];
@@ -228,38 +207,38 @@ storiesOf('SelectTable', module)
 		}
 
 		return (
-			<div>
-				Selection: {JSON.stringify(store.state.selection)}
-				<SelectTable
-					onToggleSelectAll={onToggleSelectAll}
-					onToggleSelect={onToggleSelect}
-					selection={store.state.selection}
-					selectAll={store.state.selectAll}
-					fetchData={fetchData}
-					data={store.state.data}
-					keyField="id"
-					pages={10} //not really sture how many
-					columns={[{
-						Header: 'ID',
-						accessor: 'id'
-					}, {
-						Header: 'Name',
-						accessor: 'name'
-					}, {
-						Header: 'Description',
-						accessor: 'description',
-						myFilter: 'Date'
-					}, {
-						Header: 'ABV',
-						accessor: 'abv'
-					}, {
-						Header: 'IBU',
-						accessor: 'ibu'
-					}, {
-						Header: "Brewer's Tips",
-						accessor: 'brewers_tips'
-					}]}
-				/>
-			</div>
+			<SelectTable
+				renderButton={selection => (
+					<button
+						onClick={() => alert(JSON.stringify(selection))}
+					>	
+						Show Selected
+					</button>
+				)}
+				fetchData={fetchData}
+				data={store.state.data}
+				keyField="id"
+				pages={10} //not really sture how many
+				columns={[{
+					Header: 'ID',
+					accessor: 'id'
+				}, {
+					Header: 'Name',
+					accessor: 'name'
+				}, {
+					Header: 'Description',
+					accessor: 'description',
+					myFilter: 'Date'
+				}, {
+					Header: 'ABV',
+					accessor: 'abv'
+				}, {
+					Header: 'IBU',
+					accessor: 'ibu'
+				}, {
+					Header: "Brewer's Tips",
+					accessor: 'brewers_tips'
+				}]}
+			/>
 		);
 	}));

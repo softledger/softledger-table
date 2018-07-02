@@ -36,7 +36,9 @@ class SelectTable extends React.Component {
 		super(props);
 		this.state = {
 			filtering: false,
-			columns: this.buildColumns(props.columns)
+			columns: this.buildColumns(props.columns),
+			selection: [],
+			selectAll: false
 		}
 	}
 
@@ -141,7 +143,10 @@ class SelectTable extends React.Component {
 			return this.fetchWithDebounce(tableState);
 		} else {
 			this.filtering = false;
-			this.props.onToggleSelectAll(true)
+			this.setState({
+				selection: [],
+				selectAll: false
+			})
 			return this.props.fetchData(tableState);
 		}
 	}
@@ -149,53 +154,71 @@ class SelectTable extends React.Component {
 	//250ms debounce time (human response limit)
 	fetchWithDebounce = debounce(this.props.fetchData, 250)
 
-	checkSelectAll = () => {
-		const {
+	isSelected = key => this.state.selection.indexOf(key) !== -1;
+
+	onToggleSelect = key => {
+		let selection = [...this.state.selection];
+		let idx = selection.indexOf(key);
+		let selectAll = this.state.selectAll;
+		if(idx === -1) {
+			//add it in
+			selection.push(key);
+		} else {
+			selection.splice(idx, -1);
+			selectAll = false;
+		}
+		this.setState({
 			selection,
-			data
-		} = this.props;
-		let selectAll = true;
-		data.forEach(d => {
-			if(selection.indexOf(d) === -1) selectAll = false
+			selectAll
 		});
-		return selectAll;
 	}
 
-	isSelected = key => this.props.selection.indexOf(key) !== -1;
-
-
+	onToggleSelectAll = () => {
+		let selection = [];
+		let selectAll = !this.state.selectAll;
+		if(selectAll) {
+			//add everything in
+			this.props.data.forEach(a => selection.push(a.id));
+		}
+		this.setState({
+			selectAll,
+			selection
+		});
+	}
 
 	render() {
 		const {
-			columns
+			columns,
+			selectAll,
+			selection
 		} = this.state;
 		const {
 			loading,
 			data,
 			pages,
 			pageSize,
-			selection,
 			keyField,
-			selectionColor,
-			selectAll,
-			onToggleSelect,
-			onToggleSelectAll
+			selectionColor
 		} = this.props;
 
 		return (
 			<Container fluid={true}>
 				<Row>
-					<Col xs={{size:6, offset:6}}>
+					<Col xs="2">
+						{this.props.renderButton && this.props.renderButton(selection)}
+					</Col>
+					<Col xs={{size:6, offset:4}}>
 						{this.renderMenu()}
 					</Col>
 				</Row>
 				<CheckboxTable 
 					{...this.props}
-					toggleAll={onToggleSelectAll}
-					toggleSelection={onToggleSelect}
+					toggleAll={this.onToggleSelectAll}
+					toggleSelection={this.onToggleSelect}
 					selectAll={selectAll}
 					isSelected={this.isSelected}
 					selectType='checkbox'
+					keyField={keyField || "_id"}
 					className="-highlight"
 					columns={columns}
 					manual
@@ -210,7 +233,7 @@ class SelectTable extends React.Component {
 				  			backgroundColor: 'inherit'
 				  		}
 				  	};
-				  	if(selection.includes(row && row.original[keyField])) {	
+				  	if(this.isSelected(row && row.original[keyField])) {	
 				  		//add selection color
 				  		css.style.backgroundColor = selectionColor
 				  		//if expanded add class
@@ -240,22 +263,10 @@ class SelectTable extends React.Component {
 
 SelectTable.propTypes = {
 	/**
-	 * function to call when a row selection is toggled
+	 * function which returns a button, called with selection set
+	 * this.props.renderButton(selection)
 	 */
-	onToggleSelect: PropTypes.func.isRequired,
-	/**
-	 * funciton to call when select all is toggled
-	 * called with 'true' when table data is changed
-	 */
-	onToggleSelectAll: PropTypes.func.isRequired,
-	/**
-	 * array containing selected 'key' values
-	 */
-	selection: PropTypes.array.isRequired,
-	/**
-	 * true/false if select all is set
-	 */
-	selectAll: PropTypes.bool,
+	renderButton: PropTypes.func.isRequired,
 	/**
 	 * column index to store in selection set
 	 */
@@ -331,7 +342,8 @@ SelectTable.propTypes = {
 SelectTable.defaultProps = {
 	showMenu: true,
 	showOverflow: false,
-	selectionColor: 'inherit'
+	selectionColor: 'inherit',
+	keyField: '_id'
 }
 
 export default SelectTable;
