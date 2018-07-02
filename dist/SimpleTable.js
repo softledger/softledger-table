@@ -112,7 +112,7 @@ SimpleTable = function (_React$Component) {_inherits(SimpleTable, _React$Compone
 			return (
 				_react2.default.createElement(_reactstrap.Container, { fluid: true },
 					_react2.default.createElement(_reactstrap.Row, null,
-						_react2.default.createElement(_reactstrap.Col, null,
+						_react2.default.createElement(_reactstrap.Col, { xs: { size: 6, offset: 6 } },
 							this.renderMenu(data, columns))),
 
 

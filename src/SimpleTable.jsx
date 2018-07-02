@@ -112,7 +112,7 @@ export default class SimpleTable extends React.Component {
 		return (
 			<Container fluid={true}>
 				<Row>
-					<Col>
+					<Col xs={{size:6, offset:6}}>
 						{this.renderMenu(data, columns)}
 					</Col>
 				</Row>
