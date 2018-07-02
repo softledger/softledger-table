@@ -1,4 +1,4 @@
-'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.SLTable = exports.SimpleTable = undefined;
+'use strict';Object.defineProperty(exports, "__esModule", { value: true });exports.SLTable = exports.SimpleTable = exports.SelectTable = undefined;
 
 require('react-table/react-table.css');
 require('@softledger/components/dist/styles.scss');
@@ -14,10 +14,11 @@ var _faFile = require('@fortawesome/fontawesome-free-solid/faFile');var _faFile2
 var _faSave = require('@fortawesome/fontawesome-free-solid/faSave');var _faSave2 = _interopRequireDefault(_faSave);
 
 
-
+var _SelectTable = require('./SelectTable');var _SelectTable2 = _interopRequireDefault(_SelectTable);
 var _SimpleTable = require('./SimpleTable');var _SimpleTable2 = _interopRequireDefault(_SimpleTable);
 var _SLTable = require('./SLTable');var _SLTable2 = _interopRequireDefault(_SLTable);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //hopefully this works?
 //styles
 _fontawesome2.default.library.add(_faColumns2.default, _faCaretDown2.default, _faFileAlt2.default, _faFile2.default, _faSave2.default);exports.
+SelectTable = _SelectTable2.default;exports.
 SimpleTable = _SimpleTable2.default;exports.
 SLTable = _SLTable2.default;

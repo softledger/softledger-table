@@ -9,7 +9,10 @@ var _TableFilters = require('./TableFilters');var _TableFilters2 = _interopRequi
 var _reactstrap = require('reactstrap');
 var _reactTable = require('react-table');var _reactTable2 = _interopRequireDefault(_reactTable);
 var _lodash = require('lodash');
-var _reactFontawesome = require('@fortawesome/react-fontawesome');var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+var _reactFontawesome = require('@fortawesome/react-fontawesome');var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
+var _selectTable = require('react-table/lib/hoc/selectTable');var _selectTable2 = _interopRequireDefault(_selectTable);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
+
+var CheckboxTable = (0, _selectTable2.default)(_reactTable2.default);
 
 var getHeaders = function getHeaders(columns, visibleOnly) {
 	if (!columns) return false;
@@ -28,8 +31,8 @@ var getHeaders = function getHeaders(columns, visibleOnly) {
 /**
     * Extension of react-table to simplify for our standard use case
     */var
-SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
-	function SLTable(props) {_classCallCheck(this, SLTable);var _this = _possibleConstructorReturn(this, (SLTable.__proto__ || Object.getPrototypeOf(SLTable)).call(this,
+SelectTable = function (_React$Component) {_inherits(SelectTable, _React$Component);
+	function SelectTable(props) {_classCallCheck(this, SelectTable);var _this = _possibleConstructorReturn(this, (SelectTable.__proto__ || Object.getPrototypeOf(SelectTable)).call(this,
 		props));_this.
 
 
@@ -138,13 +141,30 @@ SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 				return _this.fetchWithDebounce(tableState);
 			} else {
 				_this.filtering = false;
+				_this.props.onToggleSelectAll(true);
 				return _this.props.fetchData(tableState);
 			}
 		};_this.
 
 
-		fetchWithDebounce = (0, _lodash.debounce)(_this.props.fetchData, 250);_this.state = { filtering: false, columns: _this.buildColumns(props.columns) };return _this;} //250ms debounce time (human response limit)
-	_createClass(SLTable, [{ key: 'render', value: function render()
+		fetchWithDebounce = (0, _lodash.debounce)(_this.props.fetchData, 250);_this.
+
+		checkSelectAll = function () {var _this$props =
+
+
+
+			_this.props,selection = _this$props.selection,data = _this$props.data;
+			var selectAll = true;
+			data.forEach(function (d) {
+				if (selection.indexOf(d) === -1) selectAll = false;
+			});
+			return selectAll;
+		};_this.
+
+		isSelected = function (key) {return _this.props.selection.indexOf(key) !== -1;};_this.state = { filtering: false, columns: _this.buildColumns(props.columns) };return _this;} //250ms debounce time (human response limit)
+	_createClass(SelectTable, [{ key: 'render', value: function render()
+
+
 		{var _this2 = this;var
 
 			columns =
@@ -154,7 +174,13 @@ SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 
 
 
-			this.props,loading = _props.loading,data = _props.data,pages = _props.pages,pageSize = _props.pageSize;
+
+
+
+
+
+
+			this.props,loading = _props.loading,data = _props.data,pages = _props.pages,pageSize = _props.pageSize,selection = _props.selection,keyField = _props.keyField,selectionColor = _props.selectionColor,selectAll = _props.selectAll,onToggleSelect = _props.onToggleSelect,onToggleSelectAll = _props.onToggleSelectAll;
 
 			return (
 				_react2.default.createElement(_reactstrap.Container, { fluid: true },
@@ -163,8 +189,13 @@ SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 							this.renderMenu())),
 
 
-					_react2.default.createElement(_reactTable2.default, _extends({},
+					_react2.default.createElement(CheckboxTable, _extends({},
 					this.props, {
+						toggleAll: onToggleSelectAll,
+						toggleSelection: onToggleSelect,
+						selectAll: selectAll,
+						isSelected: this.isSelected,
+						selectType: 'checkbox',
 						className: '-highlight',
 						columns: columns,
 						manual: true,
@@ -173,17 +204,21 @@ SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 						onFilteredChange: this.onFilteredChange,
 						filterable: true
 						// Any Tr element will be green if its (row.age > 20)
-						, getTrProps: function getTrProps(state, rowInfo, column) {
-							//if expanded add class
-							if (rowInfo && state.expanded[rowInfo.index]) {
-								return {
-									style: {
-										backgroundColor: '#eaedef' } };
+						, getTrProps: function getTrProps(state, row, column) {
+							var css = {
+								style: {
+									backgroundColor: 'inherit' } };
 
 
-							} else {
-								return {};
+							if (selection.includes(row && row.original[keyField])) {
+								//add selection color
+								css.style.backgroundColor = selectionColor;
+								//if expanded add class
+							} else if (row && state.expanded[row.index]) {
+								css.style.backgroundColor = '#eaedef';
 							}
+
+							return css;
 						},
 						getTdProps: function getTdProps() {
 							return {
@@ -199,14 +234,39 @@ SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 
 
 
-		} }]);return SLTable;}(_react2.default.Component);exports.default = SLTable;
+		} }]);return SelectTable;}(_react2.default.Component);
 
 
 
-SLTable.propTypes = {
+SelectTable.propTypes = {
 	/**
-                       * array of objects to display in the table
-                       */
+                           * function to call when a row selection is toggled
+                           */
+	onToggleSelect: _propTypes2.default.func.isRequired,
+	/**
+                                                       * funciton to call when select all is toggled
+                                                       * called with 'true' when table data is changed
+                                                       */
+	onToggleSelectAll: _propTypes2.default.func.isRequired,
+	/**
+                                                          * array containing selected 'key' values
+                                                          */
+	selection: _propTypes2.default.array.isRequired,
+	/**
+                                                   * true/false if select all is set
+                                                   */
+	selectAll: _propTypes2.default.bool,
+	/**
+                                       * column index to store in selection set
+                                       */
+	keyField: _propTypes2.default.string.isRequired,
+	/**
+                                                   * css color to highlight row when selected
+                                                   */
+	selectionColor: _propTypes2.default.string,
+	/**
+                                              * array of objects to display in the table
+                                              */
 	data: _propTypes2.default.array,
 	/**
                                    * total # of pages
@@ -268,6 +328,10 @@ SLTable.propTypes = {
 	onSaveTableFields: _propTypes2.default.func };
 
 
-SLTable.defaultProps = {
+SelectTable.defaultProps = {
 	showMenu: true,
-	showOverflow: false };
+	showOverflow: false,
+	selectionColor: 'inherit' };exports.default =
+
+
+SelectTable;

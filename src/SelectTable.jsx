@@ -10,6 +10,9 @@ import { Container, Row, Col, DropdownItem } from 'reactstrap';
 import ReactTable from 'react-table';
 import {debounce} from 'lodash';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import checkboxHOC from "react-table/lib/hoc/selectTable";
+
+const CheckboxTable = checkboxHOC(ReactTable);
 
 const getHeaders = (columns, visibleOnly) => {
 	if(!columns) return false;
@@ -28,7 +31,7 @@ const getHeaders = (columns, visibleOnly) => {
 /**
  * Extension of react-table to simplify for our standard use case
  */
-export default class SLTable extends React.Component {
+class SelectTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -138,12 +141,29 @@ export default class SLTable extends React.Component {
 			return this.fetchWithDebounce(tableState);
 		} else {
 			this.filtering = false;
+			this.props.onToggleSelectAll(true)
 			return this.props.fetchData(tableState);
 		}
 	}
 
 	//250ms debounce time (human response limit)
 	fetchWithDebounce = debounce(this.props.fetchData, 250)
+
+	checkSelectAll = () => {
+		const {
+			selection,
+			data
+		} = this.props;
+		let selectAll = true;
+		data.forEach(d => {
+			if(selection.indexOf(d) === -1) selectAll = false
+		});
+		return selectAll;
+	}
+
+	isSelected = key => this.props.selection.indexOf(key) !== -1;
+
+
 
 	render() {
 		const {
@@ -153,7 +173,13 @@ export default class SLTable extends React.Component {
 			loading,
 			data,
 			pages,
-			pageSize
+			pageSize,
+			selection,
+			keyField,
+			selectionColor,
+			selectAll,
+			onToggleSelect,
+			onToggleSelectAll
 		} = this.props;
 
 		return (
@@ -163,8 +189,13 @@ export default class SLTable extends React.Component {
 						{this.renderMenu()}
 					</Col>
 				</Row>
-				<ReactTable 
+				<CheckboxTable 
 					{...this.props}
+					toggleAll={onToggleSelectAll}
+					toggleSelection={onToggleSelect}
+					selectAll={selectAll}
+					isSelected={this.isSelected}
+					selectType='checkbox'
 					className="-highlight"
 					columns={columns}
 					manual
@@ -173,17 +204,21 @@ export default class SLTable extends React.Component {
 					onFilteredChange={this.onFilteredChange}
 					filterable
 					// Any Tr element will be green if its (row.age > 20)
-				  getTrProps={(state, rowInfo, column) => {
-				  	//if expanded add class
-				  	if (rowInfo && state.expanded[rowInfo.index]) {
-					    return {
-					      style: {
-					        backgroundColor: '#eaedef'
-					      }
-					    }
-					  }else {
-					  	return {};
+				  getTrProps={(state, row, column) => {				  
+				  	let css = {
+				  		style: {
+				  			backgroundColor: 'inherit'
+				  		}
+				  	};
+				  	if(selection.includes(row && row.original[keyField])) {	
+				  		//add selection color
+				  		css.style.backgroundColor = selectionColor
+				  		//if expanded add class
+				  	} else if (row && state.expanded[row.index]) {
+					    css.style.backgroundColor = '#eaedef';
 					  }
+
+					  return css;
 				  }}
 				  getTdProps={() => {
 				  	return {
@@ -203,7 +238,32 @@ export default class SLTable extends React.Component {
 
 }
 
-SLTable.propTypes = {
+SelectTable.propTypes = {
+	/**
+	 * function to call when a row selection is toggled
+	 */
+	onToggleSelect: PropTypes.func.isRequired,
+	/**
+	 * funciton to call when select all is toggled
+	 * called with 'true' when table data is changed
+	 */
+	onToggleSelectAll: PropTypes.func.isRequired,
+	/**
+	 * array containing selected 'key' values
+	 */
+	selection: PropTypes.array.isRequired,
+	/**
+	 * true/false if select all is set
+	 */
+	selectAll: PropTypes.bool,
+	/**
+	 * column index to store in selection set
+	 */
+	keyField: PropTypes.string.isRequired,
+	/**
+	 * css color to highlight row when selected
+	 */
+	selectionColor: PropTypes.string,
 	/**
 	 * array of objects to display in the table
 	 */
@@ -268,7 +328,10 @@ SLTable.propTypes = {
 	onSaveTableFields: PropTypes.func
 };
 
-SLTable.defaultProps = {
+SelectTable.defaultProps = {
 	showMenu: true,
-	showOverflow: false
+	showOverflow: false,
+	selectionColor: 'inherit'
 }
+
+export default SelectTable;

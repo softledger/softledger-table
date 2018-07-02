@@ -14,11 +14,12 @@ import faFile from '@fortawesome/fontawesome-free-solid/faFile';
 import faSave from '@fortawesome/fontawesome-free-solid/faSave';
 fontawesome.library.add(faColumns, faCaretDown, faFileAlt, faFile, faSave);
 
-
+import SelectTable from './SelectTable';
 import SimpleTable from './SimpleTable';
 import SLTable from './SLTable';
 
 export {
+	SelectTable,
 	SimpleTable,
 	SLTable
 }
