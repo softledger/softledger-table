@@ -27,7 +27,7 @@
   letter-spacing: 0.5px;
   font-weight: normal;
   color: #9b9b9b;
-  margin: 4px 0px; 
+  margin: 0px; 
 }
 
 .ReactTable .rt-thead .rt-th {
@@ -47,6 +47,15 @@
   box-shadow: none;
   border-top: 1px solid #dadada;
   border-bottom: 1px solid #dadada;
+}
+
+.ReactTable .rt-thead.-headerGroups {
+  box-shadow: none;
+}
+
+.ReactTable .rt-thead.-headerGroups > .rt-tr > .rt-th {
+  box-shadow: #dadada 1px 0px;
+  border-bottom: none;
 }
 
 .ReactTable .vertical-text {
