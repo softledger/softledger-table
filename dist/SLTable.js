@@ -16,13 +16,41 @@ var getHeaders = function getHeaders(columns, visibleOnly) {
 	//if(!visibleOnly) return false;
 	var headers = [];
 	columns.forEach(function (c) {
-		if (visibleOnly) {
-			if (c.hasOwnProperty('show') && !c.show) return;
-		};
-		if (!c.accessor) return;
-		headers.push(c.accessor);
+		if (c.columns) {
+			headers = headers.concat(getHeaders(c.column, visibleOnly));
+		} else {
+			if (visibleOnly) {
+				if (c.hasOwnProperty('show') && !c.show) return;
+			};
+			if (!c.accessor) return;
+			headers.push(c.accessor);
+		}
 	});
 	return headers;
+};
+
+//handles nested headers as well
+var buildDropDownColumns = function buildDropDownColumns(columns, _onToggle, topIdx) {
+	var built = [];
+	columns.forEach(function (c, idx) {
+		if (!c.Header) return;
+		if (c.columns) {
+			var nested = buildDropDownColumns(c.columns, _onToggle, idx);
+			built = built.concat(nested);
+		} else {
+			if (c.show === undefined) c.show = true;
+			built.push(
+			_react2.default.createElement(_components.BoolDropDownMenuItem, { key: c.Header,
+				value: c.show,
+				text: c.Header,
+				onToggle: function onToggle() {
+					if (topIdx) return _onToggle(topIdx, idx);
+					return _onToggle(idx);
+				} }));
+
+		}
+	});
+	return built;
 };
 
 /**
@@ -70,19 +98,7 @@ SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 
 
 
-
-						_this.state.columns.map(function (c, idx) {
-							if (!c.Header) return;
-							if (c.show === undefined) c.show = true;
-							return (
-								_react2.default.createElement(_components.BoolDropDownMenuItem, { key: c.Header,
-									value: c.show,
-									text: c.Header,
-									onToggle: function onToggle() {return _this.toggleColumn(idx);} }));
-
-
-						}),
-
+						buildDropDownColumns(_this.state.columns, _this.toggleColumn),
 
 						_this.props.onSaveTableFields &&
 						_react2.default.createElement('span', null,
@@ -105,15 +121,33 @@ SLTable = function (_React$Component) {_inherits(SLTable, _React$Component);
 
 		};_this.
 
-		toggleColumn = function (idx) {return _this.setState({
-				columns: (0, _immutabilityHelper2.default)(_this.state.columns, _defineProperty({},
-				idx, {
-					show: {
-						$apply: function $apply(show) {return !show;} } })) });};_this.
+		toggleColumn = function (idx, nestedIdx) {
+			if (nestedIdx > -1) {
+				_this.setState({
+					columns: (0, _immutabilityHelper2.default)(_this.state.columns, _defineProperty({},
+					idx, {
+						columns: _defineProperty({},
+						nestedIdx, {
+							show: {
+								$apply: function $apply(show) {return !show;} } }) })) });
 
 
 
 
+
+
+			} else {
+				_this.setState({
+					columns: (0, _immutabilityHelper2.default)(_this.state.columns, _defineProperty({},
+					idx, {
+						show: {
+							$apply: function $apply(show) {return !show;} } })) });
+
+
+
+
+			}
+		};_this.
 
 		buildColumns = function (columns) {return columns.map(function (c) {
 				//if not filterable return

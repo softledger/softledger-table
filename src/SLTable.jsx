@@ -16,13 +16,41 @@ const getHeaders = (columns, visibleOnly) => {
 	//if(!visibleOnly) return false;
 	let headers = [];
 	columns.forEach(c => {
-		if(visibleOnly) {
-			if(c.hasOwnProperty('show') && !c.show) return;
-		};
-		if(!c.accessor) return;
-		headers.push(c.accessor);
+		if(c.columns) {
+			headers = headers.concat(getHeaders(c.column, visibleOnly));
+		} else {
+			if(visibleOnly) {
+				if(c.hasOwnProperty('show') && !c.show) return;
+			};
+			if(!c.accessor) return;
+			headers.push(c.accessor);
+		}
 	});
 	return headers;
+}
+
+//handles nested headers as well
+const buildDropDownColumns = (columns, onToggle, topIdx) => {
+	let built = [];
+	columns.forEach((c, idx) => {
+		if(!c.Header) return;
+		if(c.columns) {
+			let nested = buildDropDownColumns(c.columns, onToggle, idx);
+			built = built.concat(nested);
+		} else {
+			if(c.show === undefined) c.show = true;
+			built.push(
+				<BoolDropDownMenuItem key={c.Header}
+				value={c.show}
+				text={c.Header}
+				onToggle={() => {
+					if(topIdx) return onToggle(topIdx, idx);
+					return onToggle(idx)
+				}} />
+			);
+		}
+	});
+	return built;
 }
 
 /**
@@ -70,19 +98,7 @@ export default class SLTable extends React.Component {
 							</div>
 						)}
 					>
-				  	{
-				  		this.state.columns.map((c, idx) => {
-					  		if(!c.Header) return;
-					  		if(c.show === undefined) c.show = true;
-					  		return (
-					  			<BoolDropDownMenuItem key={c.Header}
-						  			value={c.show}
-						  			text={c.Header}
-						  			onToggle={() => this.toggleColumn(idx)} 
-						  		/>
-					  		)
-					  	})
-				  	} 
+				  	{buildDropDownColumns(this.state.columns, this.toggleColumn)} 
 				  	{
 				  		this.props.onSaveTableFields &&
 				  			<span>
@@ -105,15 +121,33 @@ export default class SLTable extends React.Component {
 		)
 	}
 
-	toggleColumn = idx => this.setState({
-		columns: update(this.state.columns, {
-			[idx]: {
-				show: {
-					$apply: show => !show
-				}
-			}
-		})
-	})
+	toggleColumn = (idx, nestedIdx) => {
+		if(nestedIdx > -1) {
+			this.setState({
+				columns: update(this.state.columns, {
+					[idx]: {
+						columns: {
+							[nestedIdx]: {
+								show: {
+									$apply: show => !show
+								}
+							}
+						}
+					}
+				})
+			})
+		} else {
+			this.setState({
+				columns: update(this.state.columns, {
+					[idx]: {
+						show: {
+							$apply: show => !show
+						}
+					}
+				})
+			})
+		}
+	}
 
 	buildColumns = columns => columns.map(c => {
 		//if not filterable return

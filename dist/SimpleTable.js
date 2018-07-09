@@ -8,8 +8,31 @@ var _DataToCSV = require('./components/DataToCSV');var _DataToCSV2 = _interopReq
 var _reactstrap = require('reactstrap');
 var _reactTable = require('react-table');var _reactTable2 = _interopRequireDefault(_reactTable);
 var _filterMethods = require('./TableFilters/filterMethods');var FilterMethods = _interopRequireWildcard(_filterMethods);
-var _reactFontawesome = require('@fortawesome/react-fontawesome');var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}var
+var _reactFontawesome = require('@fortawesome/react-fontawesome');var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;} else {var newObj = {};if (obj != null) {for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];}}newObj.default = obj;return newObj;}}function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _possibleConstructorReturn(self, call) {if (!self) {throw new ReferenceError("this hasn't been initialised - super() hasn't been called");}return call && (typeof call === "object" || typeof call === "function") ? call : self;}function _inherits(subClass, superClass) {if (typeof superClass !== "function" && superClass !== null) {throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;}
 
+//handles nested headers as well
+var buildDropDownColumns = function buildDropDownColumns(columns, _onToggle, topIdx) {
+	var built = [];
+	columns.forEach(function (c, idx) {
+		if (!c.Header) return;
+		if (c.columns) {
+			var nested = buildDropDownColumns(c.columns, _onToggle, idx);
+			built = built.concat(nested);
+		} else {
+			if (c.show === undefined) c.show = true;
+			built.push(
+			_react2.default.createElement(_components.BoolDropDownMenuItem, { key: c.Header,
+				value: c.show,
+				text: c.Header,
+				onToggle: function onToggle() {
+					if (topIdx) return _onToggle(topIdx, idx);
+					return _onToggle(idx);
+				} }));
+
+		}
+	});
+	return built;
+};var
 
 SimpleTable = function (_React$Component) {_inherits(SimpleTable, _React$Component);
 	function SimpleTable(props) {_classCallCheck(this, SimpleTable);var _this = _possibleConstructorReturn(this, (SimpleTable.__proto__ || Object.getPrototypeOf(SimpleTable)).call(this,
@@ -58,32 +81,38 @@ SimpleTable = function (_React$Component) {_inherits(SimpleTable, _React$Compone
 
 
 
-
-						_this.state.columns.map(function (c) {
-							if (!c.Header) return;
-							if (c.show === undefined) c.show = true;
-							return (
-								_react2.default.createElement(_components.BoolDropDownMenuItem, { key: c.Header,
-									value: c.show,
-									text: c.Header,
-									onToggle: _this.toggleColumn }));
-
-						}))] }));
-
+						buildDropDownColumns(_this.state.columns, _this.toggleColumn))] }));
 
 
 
 		};_this.
 
-		toggleColumn = function (Header) {
-			_this.setState({
-				columns: _this.state.columns.map(function (col) {
-					if (col.Header === Header) {
-						col.show = !col.show;
-					}
-					return col;
-				}) });
+		toggleColumn = function (idx, nestedIdx) {
+			if (nestedIdx > -1) {
+				_this.setState({
+					columns: update(_this.state.columns, _defineProperty({},
+					idx, {
+						columns: _defineProperty({},
+						nestedIdx, {
+							show: {
+								$apply: function $apply(show) {return !show;} } }) })) });
 
+
+
+
+
+
+			} else {
+				_this.setState({
+					columns: update(_this.state.columns, _defineProperty({},
+					idx, {
+						show: {
+							$apply: function $apply(show) {return !show;} } })) });
+
+
+
+
+			}
 		};_this.
 
 		buildColumns = function (columns) {return columns && columns.map(function (c) {

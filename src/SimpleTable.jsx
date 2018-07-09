@@ -10,6 +10,29 @@ import ReactTable from 'react-table';
 import * as FilterMethods from './TableFilters/filterMethods';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
+//handles nested headers as well
+const buildDropDownColumns = (columns, onToggle, topIdx) => {
+	let built = [];
+	columns.forEach((c, idx) => {
+		if(!c.Header) return;
+		if(c.columns) {
+			let nested = buildDropDownColumns(c.columns, onToggle, idx);
+			built = built.concat(nested);
+		} else {
+			if(c.show === undefined) c.show = true;
+			built.push(
+				<BoolDropDownMenuItem key={c.Header}
+				value={c.show}
+				text={c.Header}
+				onToggle={() => {
+					if(topIdx) return onToggle(topIdx, idx);
+					return onToggle(idx)
+				}} />
+			);
+		}
+	});
+	return built;
+}
 
 export default class SimpleTable extends React.Component {
 	constructor(props) {
@@ -58,32 +81,38 @@ export default class SimpleTable extends React.Component {
 							</div>
 						)}
 					>
-				  	{
-				  		this.state.columns.map(c => {
-					  		if(!c.Header) return;
-					  		if(c.show === undefined) c.show = true;
-					  		return (
-					  			<BoolDropDownMenuItem key={c.Header}
-					  			value={c.show}
-					  			text={c.Header}
-					  			onToggle={this.toggleColumn} />
-					  		)
-					  	})
-				  	} 
+				  	{buildDropDownColumns(this.state.columns, this.toggleColumn)} 
 				  </DropDownMenu>
 				 ]} />
 		)
 	}
 
-	toggleColumn = (Header) => {
-		this.setState({
-			columns: this.state.columns.map(col => {
-				if(col.Header === Header) {
-					col.show = !col.show;
-				}
-				return col;
+	toggleColumn = (idx, nestedIdx) => {
+		if(nestedIdx > -1) {
+			this.setState({
+				columns: update(this.state.columns, {
+					[idx]: {
+						columns: {
+							[nestedIdx]: {
+								show: {
+									$apply: show => !show
+								}
+							}
+						}
+					}
+				})
 			})
-		})
+		} else {
+			this.setState({
+				columns: update(this.state.columns, {
+					[idx]: {
+						show: {
+							$apply: show => !show
+						}
+					}
+				})
+			})
+		}
 	}
 
 	buildColumns = columns => columns && columns.map(c => {
