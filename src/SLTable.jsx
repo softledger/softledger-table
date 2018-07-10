@@ -17,7 +17,7 @@ const getHeaders = (columns, visibleOnly) => {
 	let headers = [];
 	columns.forEach(c => {
 		if(c.columns) {
-			headers = headers.concat(getHeaders(c.column, visibleOnly));
+			headers = headers.concat(getHeaders(c.columns, visibleOnly));
 		} else {
 			if(visibleOnly) {
 				if(c.hasOwnProperty('show') && !c.show) return;
