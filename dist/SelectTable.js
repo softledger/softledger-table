@@ -164,7 +164,7 @@ SelectTable = function (_React$Component) {_inherits(SelectTable, _React$Compone
 				//add it in
 				selection.push(key);
 			} else {
-				selection.splice(idx, -1);
+				selection.splice(idx, 1);
 				selectAll = false;
 			}
 			_this.setState({

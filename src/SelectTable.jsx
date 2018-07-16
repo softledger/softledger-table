@@ -164,7 +164,7 @@ class SelectTable extends React.Component {
 			//add it in
 			selection.push(key);
 		} else {
-			selection.splice(idx, -1);
+			selection.splice(idx, 1);
 			selectAll = false;
 		}
 		this.setState({
